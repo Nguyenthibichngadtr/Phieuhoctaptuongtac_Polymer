@@ -7,11 +7,45 @@
 <style>
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fcecf7;color:#17274d;font:18px/1.5 system-ui,sans-serif}
 main{max-width:520px;margin:20px;padding:32px;background:white;border-radius:20px;text-align:center}
-a{display:inline-block;padding:12px 20px;border-radius:10px;background:#173754;color:white;font-weight:700}
+main{width:min(520px,calc(100% - 40px));box-sizing:border-box}
+label{display:block;text-align:left;font-weight:600;margin:20px 0 6px}
+input{box-sizing:border-box;width:100%;padding:12px 14px;border:1px solid #9aadc1;border-radius:10px;font:inherit}
+input:focus{outline:3px solid #b4eafa;border-color:#173754}
+button{padding:12px 24px;border:0;border-radius:10px;background:#173754;color:white;font:inherit;font-weight:700;cursor:pointer}
+#error{min-height:1.5em;color:#a32641;font-size:16px;margin:8px 0}
+h1{font-size:clamp(25px,5vw,36px)}
 </style>
 </head>
 <body><main>
 <h1>Phiếu học tập Polymer</h1>
-<a href="https://script.google.com/macros/s/AKfycbzeIXjFzP-P-B8Bne4OyAHDhSHocduBwVTdXTZPnAMlqPHhnKOYL5HtS8KuOlGu1unbLg/exec">Mở phiếu trực tuyến</a>
-</main></body>
+<form id="access">
+<label for="password">Mật khẩu đăng nhập</label>
+<input id="password" type="password" inputmode="numeric" autocomplete="off" required aria-describedby="error" autofocus>
+<p id="error" role="alert"></p>
+<button type="submit">Đăng nhập</button>
+</form>
+</main>
+<script>
+const form=document.getElementById('access');
+const password=document.getElementById('password');
+const error=document.getElementById('error');
+form.addEventListener('submit',event=>{
+ event.preventDefault();
+ if(password.value!=='1234'){
+  error.textContent='Mật khẩu chưa đúng. Vui lòng nhập lại.';
+  password.setAttribute('aria-invalid','true');
+  password.focus();
+  password.select();
+  return;
+ }
+ error.textContent='';
+ password.removeAttribute('aria-invalid');
+ window.location.assign('https://script.google.com/macros/s/AKfycbzoDCHAz7KTvxUvDCdL7Sq805qwZPHwAzGPXf18tO_68WWIll2hPPnj6jjEZlNRc0Ed_Q/exec');
+});
+password.addEventListener('input',()=>{
+ error.textContent='';
+ password.removeAttribute('aria-invalid');
+});
+</script>
+</body>
 </html>
